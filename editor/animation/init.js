@@ -44,7 +44,7 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
 
             var checkioInput = data.in || ["..2..", ".....", "1.F.3", ".....", "..4.."];
             var checkioInputStr = fname + '((';
-            for (var i = 0; i < checkioInput.length; i ++) {
+            for (var i = 0; i < checkioInput.length; i++) {
                 checkioInputStr += '<br>"' + checkioInput[i] + '",';
             }
             checkioInputStr += "))";
@@ -72,6 +72,9 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
 
             $content.find('.call').html(checkioInputStr);
             $content.find('.output').html('Working...');
+
+            var svg = new SupplyStations($content.find(".explanation")[0]);
+            svg.prepare(checkioInput);
 
 
             if (data.ext) {
@@ -125,22 +128,92 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
 //            });
 //        });
 
-        var colorOrange4 = "#F0801A";
-        var colorOrange3 = "#FA8F00";
-        var colorOrange2 = "#FAA600";
-        var colorOrange1 = "#FABA00";
+        function SupplyStations(dom) {
 
-        var colorBlue4 = "#294270";
-        var colorBlue3 = "#006CA9";
-        var colorBlue2 = "#65A1CF";
-        var colorBlue1 = "#8FC7ED";
+            var colorOrange4 = "#F0801A";
+            var colorOrange3 = "#FA8F00";
+            var colorOrange2 = "#FAA600";
+            var colorOrange1 = "#FABA00";
 
-        var colorGrey4 = "#737370";
-        var colorGrey3 = "#9D9E9E";
-        var colorGrey2 = "#C5C6C6";
-        var colorGrey1 = "#EBEDED";
+            var colorBlue4 = "#294270";
+            var colorBlue3 = "#006CA9";
+            var colorBlue2 = "#65A1CF";
+            var colorBlue1 = "#8FC7ED";
 
-        var colorWhite = "#FFFFFF";
+            var colorGrey4 = "#737370";
+            var colorGrey3 = "#9D9E9E";
+            var colorGrey2 = "#C5C6C6";
+            var colorGrey1 = "#EBEDED";
+
+            var colorWhite = "#FFFFFF";
+
+            var colors = ["#66CC66", "#FF6666", colorOrange1, colorBlue1];
+
+            var p = 10;
+
+            var cell = 40;
+
+            var sizeX, sizeY;
+
+            var paper;
+            var map = [];
+
+            var stations = [];
+            var factory;
+            var factoryFills = [];
+
+            var attrCell = {"stroke": colorBlue4, "stroke-width": 2, "fill": colorGrey1};
+            var aText = {"font-family": "Roboto", "font-weight": "bold", "font-size": cell * 0.9};
+
+            this.prepare = function (data) {
+                sizeX = cell * data[0].length + 2 * p;
+                sizeY = cell * data.length + 2 * p;
+                paper = Raphael(dom, sizeX, sizeY);
+
+                for (var row = 0; row < data.length; row++) {
+                    var temp = [];
+                    for (var col = 0; col < data[0].length; col++) {
+                        var r = paper.rect(p + cell * col, p + cell * row, cell, cell).attr(attrCell);
+                        var ch = data[row][col];
+                        r.mark = ch;
+                        temp.push(r);
+                        if (ch == "F") {
+                            factory = [row, col];
+                            r.attr("stroke-width", 5);
+                            factoryFills = paper.set();
+                            var center = [p + col * cell + cell / 2, p + row * cell + cell / 2];
+                            factoryFills.push(
+                                paper.path([["M", p + cell * col, p + cell * row],
+                                    ["H", p + cell * col + cell],
+                                    ["L", center[0], center[1]], ["Z"]]));
+                            factoryFills.push(
+                                paper.path([["M", p + cell * col + cell, p + cell * row],
+                                    ["V", p + cell * row + cell],
+                                    ["L", center[0], center[1]], ["Z"]]));
+                            factoryFills.push(
+                                paper.path([["M", p + cell * col + cell, p + cell * row + cell],
+                                    ["H", p + cell * col],
+                                    ["L", center[0], center[1]], ["Z"]]));
+                            factoryFills.push(
+                                paper.path([["M", p + cell * col, p + cell * row + cell],
+                                    ["V", p + cell * col],
+                                    ["L", center[0], center[1]], ["Z"]]));
+                            factoryFills.attr(attrCell);
+                        }
+                        else if (ch == "X") {
+                            r.attr("fill", colorGrey4);
+                        }
+                        else if ("1234".indexOf(ch) !== -1) {
+                            var t = paper.text(p + cell * col + cell / 2, p + cell * row + cell / 2, ch).attr(aText);
+                            r.attr("fill", colors[Number(ch) - 1]);
+                        }
+                    }
+                    map.push(temp);
+                }
+                map[factory[0]][factory[1]].attr("fill-opacity", 0).toFront();
+            }
+        }
+
         //Your Additional functions or objects inside scope
         //
         //

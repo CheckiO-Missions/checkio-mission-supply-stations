@@ -72,7 +72,7 @@ def checker(the_map, result):
                 return False, "Ooops, we lost the route from station {}".format(numb)
             checked = wmap[row][col]
             if checked == "X":
-                return False, "The route {} was struck".format(numb)
+                return False, "The route {} was struck {} {}".format(numb, coor, (row, col))
             if checked == "F":
                 factory_supply[numb - 1] = 1
                 if i >= len(route):
@@ -81,6 +81,7 @@ def checker(the_map, result):
             if checked != ".":
                 return False, "Don't intersect routes"
             wmap[row][col] = str(numb)
+            coor = row, col
     if factory_supply != [1, 1, 1, 1]:
         return False, "You should deliver all four resources"
     return True, "Great!"
