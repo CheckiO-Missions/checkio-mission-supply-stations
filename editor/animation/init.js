@@ -85,6 +85,9 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
 
                 //if you need additional info from tests (if exists)
                 var explanation = data.ext["explanation"];
+
+                svg.routes(userResult);
+
                 $content.find('.output').html('&nbsp;Your result:&nbsp;' + JSON.stringify(userResult));
                 if (!result) {
                     $content.find('.answer').html(result_addon);
@@ -99,16 +102,6 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
             else {
                 $content.find('.answer').remove();
             }
-
-
-            //Your code here about test explanation animation
-            //$content.find(".explanation").html("Something text for example");
-            //
-            //
-            //
-            //
-            //
-
 
             this_e.setAnimationHeight($content.height() + 60);
 
@@ -160,7 +153,7 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
 
             var stations = [];
             var factory;
-            var factoryFills = [];
+            var factoryFills = {};
 
             var attrCell = {"stroke": colorBlue4, "stroke-width": 2, "fill": colorGrey1};
             var aText = {"font-family": "Roboto", "font-weight": "bold", "font-size": cell * 0.9};
@@ -182,23 +175,32 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
                             r.attr("stroke-width", 5);
                             factoryFills = paper.set();
                             var center = [p + col * cell + cell / 2, p + row * cell + cell / 2];
-                            factoryFills.push(
-                                paper.path([["M", p + cell * col, p + cell * row],
+                            factoryFills = {
+                                "S": paper.path([
+                                    ["M", p + cell * col, p + cell * row],
                                     ["H", p + cell * col + cell],
-                                    ["L", center[0], center[1]], ["Z"]]));
-                            factoryFills.push(
-                                paper.path([["M", p + cell * col + cell, p + cell * row],
+                                    ["L", center[0], center[1]],
+                                    ["Z"]
+                                ]).attr(attrCell),
+
+                                "W": paper.path([
+                                    ["M", p + cell * col + cell, p + cell * row],
                                     ["V", p + cell * row + cell],
-                                    ["L", center[0], center[1]], ["Z"]]));
-                            factoryFills.push(
-                                paper.path([["M", p + cell * col + cell, p + cell * row + cell],
+                                    ["L", center[0], center[1]],
+                                    ["Z"]
+                                ]).attr(attrCell),
+                                "N": paper.path([
+                                    ["M", p + cell * col + cell, p + cell * row + cell],
                                     ["H", p + cell * col],
-                                    ["L", center[0], center[1]], ["Z"]]));
-                            factoryFills.push(
-                                paper.path([["M", p + cell * col, p + cell * row + cell],
+                                    ["L", center[0], center[1]],
+                                    ["Z"]
+                                ]).attr(attrCell),
+                                "E": paper.path([
+                                    ["M", p + cell * col, p + cell * row + cell],
                                     ["V", p + cell * col],
-                                    ["L", center[0], center[1]], ["Z"]]));
-                            factoryFills.attr(attrCell);
+                                    ["L", center[0], center[1]],
+                                    ["Z"]
+                                ]).attr(attrCell)};
                         }
                         else if (ch == "X") {
                             r.attr("fill", colorGrey4);
@@ -206,18 +208,86 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
                         else if ("1234".indexOf(ch) !== -1) {
                             var t = paper.text(p + cell * col + cell / 2, p + cell * row + cell / 2, ch).attr(aText);
                             r.attr("fill", colors[Number(ch) - 1]);
+                            stations[Number(ch) - 1] = [row, col];
                         }
                     }
                     map.push(temp);
                 }
                 map[factory[0]][factory[1]].attr("fill-opacity", 0).toFront();
+            };
+
+
+            var DIRS = {
+                "N": [-1, 0],
+                "S": [1, 0],
+                "W": [0, -1],
+                "E": [0, 1]
+            };
+
+            this.routes = function (data) {
+                var tCount = 0;
+                var stepTime = 200;
+                var fullStepTime = 300;
+                if (!data.length || data.length != 4) {
+                    return false;
+                }
+                for (var i = 0; i < 4; i++) {
+                    var st = stations[i];
+                    var color = colors[i];
+                    if (typeof data[i] != "string") {
+                        continue;
+                    }
+                    var route = data[i];
+                    for (var c = 0; c < route.length; c++) {
+                        var ch = route[c];
+
+                        if ("NSWE".indexOf(ch) === -1) {
+                            break;
+                        }
+                        var row = st[0] + DIRS[ch][0];
+                        var col = st[1] + DIRS[ch][1];
+                        if (row < 0 || row >= map.length || col < 0 || col >= map[0].length) {
+                            setTimeout(function(x, y, cl) {
+                                return function() {
+                                    paper.rect(p + cell * x, p + cell * y, cell, cell).attr(
+                                {"stroke": colorBlue4, "stroke-width": 0, "fill": cl});
+                                }}(col, row, color), fullStepTime * tCount);
+                            tCount++;
+                            break;
+                        }
+
+                        var r = map[row][col];
+
+                        if (r.mark === "." || "1234".indexOf(r.mark) !== -1) {
+                            setTimeout(function(el, cl) {
+                                return function() {
+                                    el.animate({"fill": cl}, stepTime);
+                                }}(r, color), fullStepTime * tCount);
+                            r.mark = String(i + 1);
+                            tCount++;
+                        }
+                        else if (r.mark === "X") {
+                            setTimeout(function(x, y, cl) {
+                                return function() {
+                                    paper.circle(p + cell * x + cell / 2, p + cell * y + cell / 2, cell / 4).attr(
+                                {"stroke": colorBlue4, "stroke-width": 2, "fill": cl});
+                                }}(col, row, color), fullStepTime * tCount);
+                            tCount++;
+                            break;
+                        }
+                        else if (r.mark === "F") {
+                            setTimeout(function(numb, cl) {
+                                return function() {
+                                    factoryFills[numb].attr("fill", cl);
+                                }}(ch, color), fullStepTime * tCount);
+                            tCount++;
+                        }
+                        st = [row, col];
+                    }
+
+                }
             }
         }
-
-        //Your Additional functions or objects inside scope
-        //
-        //
-        //
 
 
     }
