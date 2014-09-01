@@ -94,7 +94,7 @@ api.add_listener(
             'python-27': cover,  # or None
             'python-3': cover
         },
-        function_name="supply_route",
+        function_name="supply_routes",
         checker=checker,
         # checker=None,  # checkers.float.comparison(2)
         # add_allowed_modules=[],
