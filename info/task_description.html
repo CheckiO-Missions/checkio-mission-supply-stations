@@ -1,9 +1,30 @@
 <p>
-    <i>( Describe task in general )</i>
+    We need to supply our new factory with various 4 resources from 4 stations.
+    For simplicity we name them as 1st, 2nd, 3rd and 4th resource (we leave it for your imagination).
+    For this we need to calculate four routes from supply stations to the factory.
+    But trucks will deliver supplies without stops and we can not build several layers roads.
+    So routes should not intersected.
 </p>
 
 <p>
-    Sum two passed ints
+    You are given a rectangular map divided by square cells.
+    The map is represented as a sequence of strings, where:<br>
+    - "." is a clear cell;<br>
+    - "X" is an obstacle (forest, lake, etc);<br>
+    - "1", "2", "3" or "4" are supply stations;<br>
+    - "F" is a factory.
+</p>
+<p>
+    You should calculated four non intersected routes from each supply station to the factory.
+    Each route is started in a station and should be ended in the factory.
+    A route can be passed only by clear cells and should be in the map (trucks can not leave the map).
+    Trucks can move in four directions:<br>
+    - "N" north (up);<br>
+    - "S" south (down);<br>
+    - "E" east (right);<br>
+    - "W" west (left);<br>
+    A route will be represented as a string with these letters.
+    The result should be as a sequence (list or tuple) of four routes from 1st to 4th.
 </p>
 
 <p style="text-align: center;">
@@ -11,34 +32,29 @@
     <img class="for_editor_only" title="example" src="{{MEDIA}}example.png" alt="example" width="380px"/>
 </p>
 
-<p><i>( Explain input and output values )</i></p>
 <p>
-    <strong>Input: </strong> Two arguments. Both are int
+    <strong>Input: </strong> The map as a tuple of strings.
 </p>
 
 <p>
-    <strong>Output: </strong> Int. 
+    <strong>Output: </strong> The routes as a tuple/list of strings.
 </p>
 
 
 
 <div class="for_info_only">
-    <p><i>( Put some usage examples )</i></p>
     <p>
         <strong>Example:</strong>
     </p>
     <pre class="brush: python">
-checkio(3, 2) == 5
-checkio(5, 7) == 12
+supply_routes()
     </pre>
 </div>
 
 <p class="for_info_only">
     <strong>How it is used: </strong>
-    <i>(Here you can explain how it can be used in development and what is usage of this.)</i>
 </p>
 
 <p>
     <strong>Precondition:</strong>
-    <i>Constraints for Input</i>
 </p>
