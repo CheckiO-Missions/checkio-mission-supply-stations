@@ -6,31 +6,37 @@ Each test is dict with
     "answer" -- your right answer
     "explanation" -- not necessary key, it's using for additional info in animation.
 """
+BASIC_TESTS = [
+    ("..........",
+     ".1X.......",
+     ".2X.X....",
+     ".XXX.....",
+     ".X..F.....",
+     ".X........",
+     ".X..X.....",
+     ".X..X.....",
+     "..3.X...4.",
+     "....X....."),
+    ("1...2",
+     ".....",
+     "..F.."
+     "....."
+     "3...4"),
+    ("..2..",
+     ".....",
+     "1.F.3"
+     "....."
+     "..4.."),
 
+]
 
 TESTS = {
     "Basics": [
-        {
-            "input": [3, 2],
-            "answer": 5,
-            "explanation": "3+2=?"
-        },
-        {
-            "input": [5, 7],
-            "answer": 12,
-            "explanation": "5+7=?"
-        }
+
     ],
-    "Extra": [
-        {
-            "input": [6, 3],
-            "answer": 9,
-            "explanation": "6+3=?"
-        },
-        {
-            "input": [6, 7],
-            "answer": 13,
-            "explanation": "6+7=?"
-        }
-    ]
+    # "Extra": [
+    # ]
 }
+
+for t in BASIC_TESTS:
+    TESTS["Basics"].append({"input": t, "answer": t})

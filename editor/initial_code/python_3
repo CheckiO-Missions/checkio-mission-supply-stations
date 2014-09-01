@@ -1,11 +1,16 @@
-def checkio(a, b):
-    """
-        sums two passed arguments
-    """
-    return None
+def supply_routes(the_map):
+    return "", "", "", ""
 
 if __name__ == '__main__':
     #These "asserts" using only for self-checking and not necessary for auto-testing
-    assert checkio(3, 2) == 5
-    assert checkio(5, 7) == 12
-    print('Done')
+    assert supply_routes((
+        "..........",
+        ".1X.......",
+        ".2X.X....",
+        ".XXX.....",
+        ".X..F.....",
+        ".X........",
+        ".X..X.....",
+        ".X..X.....",
+        "..3.X...4.",
+        "....X.....")) == "???"
