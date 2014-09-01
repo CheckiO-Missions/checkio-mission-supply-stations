@@ -40,10 +40,14 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
             }
 
             //YOUR FUNCTION NAME
-            var fname = 'checkio';
+            var fname = 'supply_routes';
 
-            var checkioInput = data.in;
-            var checkioInputStr = fname + '(' + JSON.stringify(checkioInput) + ')';
+            var checkioInput = data.in || ["..2..", ".....", "1.F.3", ".....", "..4.."];
+            var checkioInputStr = fname + '((';
+            for (var i = 0; i < checkioInput.length; i ++) {
+                checkioInputStr += '<br>"' + checkioInput[i] + '",';
+            }
+            checkioInputStr += "))";
 
             var failError = function (dError) {
                 $content.find('.call').html(checkioInputStr);
@@ -80,7 +84,7 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
                 var explanation = data.ext["explanation"];
                 $content.find('.output').html('&nbsp;Your result:&nbsp;' + JSON.stringify(userResult));
                 if (!result) {
-                    $content.find('.answer').html('Right result:&nbsp;' + JSON.stringify(rightResult));
+                    $content.find('.answer').html(result_addon);
                     $content.find('.answer').addClass('error');
                     $content.find('.output').addClass('error');
                     $content.find('.call').addClass('error');
