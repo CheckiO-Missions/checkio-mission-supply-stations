@@ -28,8 +28,16 @@
 </p>
 
 <p style="text-align: center;">
-    <img class="for_info_only" title="example" src="{{MEDIA}}example.png" alt="example" width="392px"/>
-    <img class="for_editor_only" title="example" src="{{MEDIA}}example.png" alt="example" width="380px"/>
+    <img style="max-width: 600px;" title="supply-stations" src="{{MEDIA}}supply-stations.svg" alt="supply-stations"/>
+</p>
+<p>
+    For the given example (image) the result will be described as:
+    <pre>
+["NEEEESSSWS",
+ "WSSSSSSSEEENNNNEN,
+ "NNNNEE",
+ "NNNNWWWW"]
+</pre>
 </p>
 
 <p>
@@ -56,5 +64,9 @@ supply_routes()
 </p>
 
 <p>
-    <strong>Precondition:</strong>
+    <strong>Precondition:</strong><br>
+    All test cases are solvable.<br>
+    5 &le; len(the_map) &le; 10<br>
+    all(5 &le; len(row) &le; 10 for row in the_map)<br>
+
 </p>
