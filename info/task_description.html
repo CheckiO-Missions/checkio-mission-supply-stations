@@ -7,12 +7,12 @@
         -- "Atlas Shrugged" by Ayn Rand
     </p>
 </div>
+
 <p>
-    We need to supply our new factory with various 4 resources from 4 stations.
-    For simplicity we name them as 1st, 2nd, 3rd and 4th resource (we leave it for your imagination).
-    For this we need to calculate four routes from supply stations to the factory.
-    But trucks will deliver supplies without stops and we can not build several layers roads.
-    So routes should not intersected.
+    We need to supply our new factory with four various resources from four different stations. For simplicity we will
+    name them 1st, 2nd, 3rd and 4th resources (we can leave the rest up to your imagination). For this we will need to
+    calculate four routes from the supply stations to the factory. Trucks will must deliver our supplies without
+    stopping and we can not build several layers roads. So the truck routes should not intersect.
 </p>
 
 <p>
@@ -24,10 +24,7 @@
     - "F" is a factory.
 </p>
 <p>
-    You should calculated four non intersected routes from each supply station to the factory.
-    Each route is started in a station and should be ended in the factory.
-    A route can be passed only by clear cells and should be in the map (trucks can not leave the map).
-    Trucks can move in four directions:<br>
+    You are given a rectangular map divided by square cells. The map is represented as a sequence of strings, where:<br>
     - "N" north (up);<br>
     - "S" south (down);<br>
     - "E" east (right);<br>
@@ -78,8 +75,8 @@ supply_routes(("..........",
 
 <p class="for_info_only">
     <strong>How it is used: </strong>
-    It's like to place contact roads on a circuit board.
-    Or route traffic optimizing.
+    This algorithm which you will write can serve as a foundation for software that designs circuit boards, or as a
+    simple traffic management system.
 </p>
 
 <p>
