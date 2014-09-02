@@ -197,7 +197,7 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
                                 ]).attr(attrCell),
                                 "E": paper.path([
                                     ["M", p + cell * col, p + cell * row + cell],
-                                    ["V", p + cell * col],
+                                    ["V", p + cell * row],
                                     ["L", center[0], center[1]],
                                     ["Z"]
                                 ]).attr(attrCell)};
