@@ -11,8 +11,8 @@ from random import choice, random
 BASIC_TESTS = [
     ("..........",
      ".1X.......",
-     ".2X.X....",
-     ".XXX.....",
+     ".2X.X.....",
+     ".XXX......",
      ".X..F.....",
      ".X........",
      ".X..X.....",
