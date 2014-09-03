@@ -146,6 +146,6 @@ def generate_from_template(temp):
 for _ in range(2):
     for template in RANDOM_TEMPLATES:
         t = generate_from_template(template)
-        TESTS["0. Random"].append({"input": t, "answer": t})
+        TESTS["3. Random"].append({"input": t, "answer": t})
 
 
