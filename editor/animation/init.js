@@ -228,7 +228,7 @@ requirejs(['ext_editor_1', 'jquery_190', 'raphael_210', 'snap.svg_030'],
                 var tCount = 0;
                 var stepTime = 200;
                 var fullStepTime = 300;
-                if (!data.length || data.length != 4) {
+                if (!data || !data.length || data.length != 4) {
                     return false;
                 }
                 for (var i = 0; i < 4; i++) {
