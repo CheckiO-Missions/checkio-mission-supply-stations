@@ -47,8 +47,8 @@ DIRS = {
 }
 
 def checker(the_map, result):
-    if (not isinstance(result, (tuple, list)) and len(the_map) != 4 and
-            any(not isinstance(r, str) for r in the_map)):
+    if (not isinstance(result, (tuple, list)) and len(result) != 4 and
+            any(not isinstance(r, str) for r in result)):
         return False, "The result must be a list/tuple of four strings"
     stations = [None] * 4
     factory = None
